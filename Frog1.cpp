@@ -1,40 +1,69 @@
 #include <bits/stdc++.h>
-using namespace std;
-typedef vector<long long> vll;
-#define pi (3.141592653589)
-#define mod 1e9 + 7
-#define ll long long
-#define float double
-#define pb push_back
-#define mp make_pair
-#define ff first
-#define ss second
-#define all(c) c.begin(), c.end()
-#define mini(a, b, c) min(c, min(a, b))
-#define minf(a, b, c, d) min(d, min(c, min(a, b)))
-#define rfoi(n) for (int i = n - 1; i >= 0; i--)
-#define rfoj(n) for (int j = n - 1; j >= 0; j--)
-#define foi(n) for (int i = 0; i < n; i++)
-#define foj(n) for (int j = 0; j < n; j++)
-#define printv(v)     \
-    for (auto it : v) \
-        cout << it;
-#define print(x) cout << x << endl;
 
-void solve()
+using namespace std;
+
+// Recursive Approach
+/*
+int min_cost(int ind, vector<int> &arr, vector<int> &dp)
 {
-}
+    if (ind <= 0)
+    {
+        return 0;
+    }
+
+    if (dp[ind] != -1)
+    {
+        return dp[ind];
+    }
+
+    int onestep = INT_MAX, twostep = INT_MAX;
+    if ((ind - 1) >= 0)
+    {
+        onestep = abs(arr[ind] - arr[ind - 1]) + min_cost(ind - 1, arr, dp);
+    }
+    if ((ind - 2) >= 0)
+    {
+
+        twostep = abs(arr[ind] - arr[ind - 2]) + min_cost(ind - 2, arr, dp);
+    }
+
+    return dp[ind] = min(onestep, twostep);
+ }
+ */
 
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    long long int t;
-    t = 1;
-    cin >> t;
-    while (t--)
+    int N;
+    cin >> N;
+    vector<int> arr;
+    for (int i = 0; i < N; i++)
     {
-        solve();
+        int inp;
+        cin >> inp;
+        arr.push_back(inp);
     }
+    vector<int> dp(N + 1, -1);
+    for (int i = N; i >= 1; i--)
+    {
+        if (i == N)
+        {
+            dp[i] = 0;
+        }
+        else if (i == N - 1)
+        {
+            dp[i] = abs(arr[N - 1] - arr[N - 2]);
+        }
+        else if (i == N - 2)
+        {
+            dp[i] = abs(arr[N - 1] - arr[N - 3]);
+        }
+        else
+        {
+            dp[i] = min(abs(arr[i] - arr[i - 1]) + dp[i + 1], abs(arr[i - 1] - arr[i + 1]) + dp[i + 2]);
+        }
+    }
+
+    cout << dp[1] << "\n";
+
     return 0;
 }
